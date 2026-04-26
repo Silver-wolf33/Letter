@@ -1,0 +1,335 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>A Letter For You</title>
+
+    <!-- Fonts -->
+    <link
+      href="https://fonts.googleapis.com/css2?family=Cinzel:wght@400;600&family=Great+Vibes&family=IM+Fell+English:ital@0;1&display=swap"
+      rel="stylesheet"
+    />
+
+    <style>
+      * {
+        margin: 0;
+        padding: 0;
+        box-sizing: border-box;
+      }
+
+      body {
+        height: 100vh;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        background: radial-gradient(
+          circle at 50% 40%,
+          #f6ecd2,
+          #e2cda3 60%,
+          #d6b98a
+        );
+        overflow: hidden;
+        font-family: "Cinzel", serif;
+      }
+
+      /* subtle doodle drift */
+      .doodle {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background-image: radial-gradient(
+          rgba(0, 0, 0, 0.6) 1px,
+          transparent 1px
+        );
+        background-size: 48px 48px;
+        animation: drift 30s linear infinite;
+        opacity: 0.35;
+      }
+      @keyframes drift {
+        to {
+          background-position: 240px 240px;
+        }
+      }
+
+      .scene {
+        position: relative;
+        width: 760px;
+        height: 520px;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+        perspective: 1200px;
+      }
+
+      /* ENVELOPE (image-driven) */
+   
+      .envelope {
+        width: 320px;
+        height: 200px;
+        background: #c8a97e;
+        position: absolute;
+        cursor: pointer;
+        transform-style: preserve-3d;
+        transition: transform 1s ease;
+        box-shadow: 0 10px 25px rgba(0, 0, 0, 0.3);
+        z-index: 2;
+      }
+      .flap {
+        position: absolute;
+        width: 100%;
+        height: 100%;
+        background: #b8956b;
+        clip-path: polygon(0 0, 100% 0, 50% 50%);
+        transform-origin: top;
+        transition: transform 1s ease;
+        z-index: 3;
+      }
+      /* glossy wax highlight pulse */
+      .envelope::after {
+        content: "";
+        position: absolute;
+        inset: 0;
+        background: radial-gradient(
+          circle at 60% 55%,
+          rgba(255, 255, 255, 0.15),
+          transparent 40%
+        );
+        mix-blend-mode: soft-light;
+        opacity: 0.6;
+        animation: pulse 4s ease-in-out infinite;
+      }
+      @keyframes pulse {
+        0%,
+        100% {
+          opacity: 0.45;
+        }
+        50% {
+          opacity: 0.75;
+        }
+      }
+
+      /* LETTER (old parchment) */
+      .letter {
+        position: absolute;
+        width: 680px;
+        height: 520px;
+        padding: 50px 70px;
+        background:
+          radial-gradient(
+            120% 100% at 50% 0%,
+            rgba(255, 255, 255, 0.25),
+            transparent 50%
+          ),
+          url("file_00000000d97c71fab252771661e63528") center/cover no-repeat;
+        box-shadow: 0 30px 60px rgba(0, 0, 0, 0.35);
+        border-radius: 6px;
+        transform: translateY(30px) scale(0.85) rotateX(8deg);
+        opacity: 0;
+        transition:
+          transform 1.2s cubic-bezier(0.22, 0.61, 0.36, 1),
+          opacity 1s ease;
+        z-index: 2;
+        overflow: hidden;
+      }
+
+      /* burnt edges illusion */
+      .letter::before {
+        content: "";
+        position: absolute;
+        inset: -8px;
+        border-radius: 8px;
+        background: radial-gradient(
+          closest-side,
+          rgba(0, 0, 0, 0.15),
+          transparent 70%
+        );
+        filter: blur(6px);
+        pointer-events: none;
+      }
+
+      .letter h1 {
+        font-family: "IM Fell English", serif;
+        font-style: italic;
+        font-size: 34px;
+        margin-bottom: 18px;
+        color: #3e2f1c;
+      }
+
+      .letter p {
+        font-family: "Great Vibes", cursive;
+        font-size: 14px;
+        line-height: 1.8;
+        color: #2e2416;
+        white-space: pre-line;
+        letter-spacing: 0.4px;
+      }
+
+      /* candle light */
+      .light {
+        position: absolute;
+        inset: 0;
+        pointer-events: none;
+        background: radial-gradient(
+          circle at 50% 45%,
+          rgba(255, 215, 140, 0.28),
+          transparent 60%
+        );
+        animation: flicker 3s ease-in-out infinite;
+      }
+      @keyframes flicker {
+        0%,
+        100% {
+          opacity: 0.45;
+        }
+        50% {
+          opacity: 0.75;
+        }
+      }
+
+      /* OPEN STATE */
+      .open .envelope {
+        transform: translateY(220px) scale(0.9) rotateX(25deg);
+        opacity: 0.35;
+      }
+      .open .letter {
+        opacity: 1;
+        transform: translateY(0) scale(1) rotateX(0);
+      }
+      .open .flap {
+        transform: rotateX(-180deg);
+      }
+      /* Mobile responsive */
+
+      /* 📱 Responsive Design */
+@media (max-width: 768px) {
+
+  body {
+    padding: 10px;
+  }
+
+  .scene {
+    width: 100%;
+    height: auto;
+    transform: scale(0.95);
+  }
+
+  /* ✉️ Envelope */
+  .envelope {
+    width: 70vw;
+    height: 45vw;
+    max-width: 320px;
+    max-height: 200px;
+  }
+
+  .flap {
+    clip-path: polygon(0 0, 100% 0, 50% 55%);
+  }
+
+  /* 📜 Letter */
+  .letter {
+    width: 92vw;
+    height: auto;
+    max-height: 85vh;
+    padding: 25px 20px;
+    overflow-y: auto;
+    
+
+    /* smoother mobile animation */
+    transform: translateY(40px) scale(0.85);
+  }
+
+  .letter h1 {
+    font-size: 24px;
+    margin-bottom: 12px;
+  }
+
+  .letter p {
+    font-size: 16px;
+    line-height: 1.7;
+  }
+
+  /* 🎬 Open state adjustments */
+  .open .envelope {
+    transform: translateY(180px) scale(0.95) rotateX(20deg);
+  }
+
+  .open .letter {
+    transform: translateY(0) scale(1);
+  }
+}
+    </style>
+  </head>
+  <body>
+    <div class="doodle"></div>
+    <div class="light"></div>
+
+    <div class="scene" onclick="openLetter(this)">
+      <div class="letter">
+        <h1 id="title"></h1>
+        <p id="text"></p>
+      </div>
+      <div class="envelope">
+        <div class="flap"></div>
+      </div>
+    </div>
+
+    <!-- music -->
+    <audio
+      id="music"
+      src="Planetarium 1(MP3_160K).mp3"
+    ></audio>
+
+    <script>
+      // const name = prompt("Enter your friend's name:") || "Friend";
+
+      const fullText = `এই পাঁজরভরা ভালোবাসা দু'হাত ভরে নাও,
+এই আধো আলো আধো ছায়া দু'চোখ ভরে নাও,
+এই আমায় কিছু নাইবা দিলে,
+এই আমায় কিছু নাইবা দিলে, নিজের করে নাও।
+
+যখনি ভালোবাসার কথা মাথায় আসে তোমার মুখখানি, মনের চোখে ভেসে আসে। শুধু আবেগ ই নয়, আসে এক অনুভুতি, একান্ত নিজের করে পাওয়ার অনুভূতি,নিজের মানুষ পাওয়ার আনন্দের অনুভূতি। 
+তোমাকে ছাড়া যেন এইসময়টুকু ভাবাটায় অন্যায় হয়ে দাঁড়ায়। কি অবলীলায় আমার ভাবনা আর অনুভূতি গুলো নিজের করে নিচ্ছো। যেন আমি নেই, আমি তোমার হয়ে যাচ্ছি।
+ আমাকে তুমি নিজের করে নিও...
+কিছু নাইবা দিলে, নিজের একান্ত মানুষ করে নিও
+সবাইতো ভালোবাসে, নিজের করে নেয় কতজন বলো? তুমি কিন্তু আমাকে নিজের করে নিও... 
+আমি তোমার হতে চাই, শুধু একান্ত তোমার😌
+(আমার শব্দের ভান্ডার ফুরাতে পারে, তবে তোমাকে পাওয়ার আকাঙ্খা কখনোই না😌)`;
+
+      document.getElementById("title").innerText = "Dear " + "Ramisha" + ",";
+
+      let i = 0;
+      function typeWriter() {
+        if (i < fullText.length) {
+          document.getElementById("text").innerHTML += fullText.charAt(i);
+          i++;
+          setTimeout(typeWriter, 35);
+        }
+      }
+
+    function openLetter(el) {
+  const m = document.getElementById("music");
+
+  const isOpen = el.classList.contains("open");
+
+  if (!isOpen) {
+    // ▶️ OPEN → play music
+    el.classList.add("open");
+
+    m.volume = 0.15;
+    m.currentTime = 0; // start fresh
+    m.play();
+
+    setTimeout(typeWriter, 900);
+
+  } else {
+    // 🔇 CLOSE → stop music
+    el.classList.remove("open");
+
+    m.pause();
+    m.currentTime = 0; // reset
+  }
+}
+    </script>
+  </body>
+</html>
